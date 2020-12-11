@@ -6,7 +6,7 @@ from argparse import ArgumentParser
 def main():
     # args parser
     parser = ArgumentParser()
-    parser.add_argument('-args', '--args', default='-c:v libx265 -c:a copy', help='ffmpeg arguments for conversion')
+    parser.add_argument('-args', '--args', default='-c:v h264', help='ffmpeg arguments for conversion')
     parser.add_argument('folder', help='folder to process files from')
     args = parser.parse_args(sys.argv[1:])
 
@@ -19,9 +19,9 @@ def main():
     # process results
     for video in videoFiles:
         base = os.path.splitext(os.path.basename(video))[0]
-        output = os.path.join(args.folder, "Output", base + ".mp4")
+        output = os.path.join(args.folder, "Output", base + "_x264.mp4")
         command = "ffmpeg {} -i {} {}".format(args.args, video, output)
-        done = subprocess.run(command, capture_output=True, shell=True)
+        done = subprocess.run(command, shell=True)
         if 0 == done.returncode:
             print("{} - OK".format(video))
         else:
